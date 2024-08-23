@@ -1,3 +1,88 @@
+# dbt-coreとBigQueryで実行する手順
+
+gcloud auth でのログイン。 (CloudSDKのインストールがまだの場合は [こちら](https://cloud.google.com/sdk/docs/install-sdk?hl=ja) を参考に設定。)
+```sh
+gcloud auth login
+gcloud auth application-default login
+```
+
+## 各種インストール
+```sh
+python -m venv .venv
+source .venv/bin/activate.fish
+pip install -r requirements.txt
+pip install dbt-bigquery
+```
+
+## テンプレートからプロファイルをコピー
+```sh
+cp profiles_template.yml profiles.yml
+```
+
+## profiles.yml を編集
+`<your-project-id>`に自分のGoogleCloudのプロジェクトIDを書く。
+```yml
+project: <your-project-id>
+```
+
+## dbtのコマンド実行
+```sh
+dbt deps
+dbt seed
+dbt run
+dbt docs generate
+dbt docs serve
+```
+
+<img width="2008" alt="image" src="https://github.com/user-attachments/assets/decc06c9-39fa-45b8-8e8b-d530eb01b766">
+濃いピンクがMetric、薄いピンクがSemantic Model
+
+
+## MetricFlowのコマンド実行
+
+```sh
+pip install "dbt-metricflow[bigquery]"
+mf query --metrics large_orders
+
+# ✔ Success 🦄 - query completed after 2.09 seconds
+#   large_orders
+# --------------
+#           7219
+```
+
+参考: 
+- https://github.com/dbt-labs/jaffle-sl-template
+- https://docs.getdbt.com/docs/build/metricflow-commands
+
+# ER図作成
+
+```sh
+pip install dbterd --upgrade
+pip install dbt-artifacts-parser --upgrade
+dbterd run
+```
+
+```sh
+npm install -g dbdocs
+dbdocs login
+dbdocs build "./target/output.dbml" --project "dbt-jaffle-shop"
+```
+
+https://dbdocs.io/nkmr-jp/dbt-jaffle-shop?view=relationships
+<img width="2056" alt="image" src="https://github.com/user-attachments/assets/dbdd17a7-ccad-479a-a9d9-c45b58f07697">
+
+
+参考：
+- https://dbterd.datnguyen.de/1.17/
+
+
+# ER図更新
+```sh
+dbt docs generate
+dbterd run
+dbdocs build "./target/output.dbml" --project "dbt-jaffle-shop"
+```
+
 # 🥪 The Jaffle Shop 🦘
 
 This is a sandbox project for exploring the basic functionality and latest features of dbt. It's based on a fictional restaurant called the Jaffle Shop that serves [jaffles](https://en.wikipedia.org/wiki/Pie_iron).
