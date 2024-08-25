@@ -1,4 +1,7 @@
-# dbt-coreとBigQueryで実行する手順
+# dbt-jaffle-shop
+jaffle-shopを `dbt-core` と`BigQuery` で動かすために各種設定を修正して、手順をまとめました。また、dbtのER図を作成する手順もまとめました。
+
+## dbt-coreとBigQueryで実行する手順
 
 gcloud auth でのログイン。 (CloudSDKのインストールがまだの場合は [こちら](https://cloud.google.com/sdk/docs/install-sdk?hl=ja) を参考に設定。)
 ```sh
@@ -6,7 +9,7 @@ gcloud auth login
 gcloud auth application-default login
 ```
 
-## 各種インストール
+### 各種インストール
 ```sh
 python -m venv .venv
 source .venv/bin/activate.fish
@@ -14,18 +17,18 @@ pip install -r requirements.txt
 pip install dbt-bigquery
 ```
 
-## テンプレートからプロファイルをコピー
+### テンプレートからプロファイルをコピー
 ```sh
 cp profiles_template.yml profiles.yml
 ```
 
-## profiles.yml を編集
+### profiles.yml を編集
 `<your-project-id>`に自分のGoogleCloudのプロジェクトIDを書く。
 ```yml
 project: <your-project-id>
 ```
 
-## dbtのコマンド実行
+### dbtのコマンド実行
 ```sh
 dbt deps
 dbt seed
@@ -38,7 +41,7 @@ dbt docs serve
 濃いピンクがMetric、薄いピンクがSemantic Model
 
 
-## MetricFlowのコマンド実行
+### MetricFlowのコマンド実行
 
 ```sh
 pip install "dbt-metricflow[bigquery]"
