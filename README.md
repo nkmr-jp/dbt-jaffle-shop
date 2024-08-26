@@ -1,5 +1,5 @@
 # dbt-jaffle-shop
-jaffle-shopを `dbt-core` と`BigQuery` で動かすために各種設定を修正して、手順をまとめました。また、dbtのER図を作成する手順もまとめました。
+dbt-labs/jaffle-shopのテンプレートから作成。`dbt-core` と`BigQuery` で動かすために各種設定を修正して、実行手順をまとめました。また、dbtのER図を作成する手順もまとめました。
 
 ## dbt-coreとBigQueryで実行する手順
 
